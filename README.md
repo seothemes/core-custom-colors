@@ -1,4 +1,4 @@
-# Plugin Activator
+# Custom Colors
 
 Add color settings to the Customizer with CSS output.
 

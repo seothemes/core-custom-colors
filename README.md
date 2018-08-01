@@ -21,7 +21,6 @@ $custom_colors = [
 		'output'  => [
 			[
 				'elements'   => [
-					'body',
 					'.site-container',
 				],
 				'properties' => [
@@ -36,6 +35,12 @@ return [
     CustomColors::class => $custom_colors,
 ];
  ```
+ 
+ The above will add a new `Background Color` setting to the `Colors` section of the Customizer. It will also output the following CSS on the front-end of the site:
+ 
+ ```css
+.site-container{background-color:#fff}
+```
 
 ## Load the component
 

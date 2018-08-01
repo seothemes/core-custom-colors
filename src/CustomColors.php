@@ -1,10 +1,10 @@
 <?php
 /**
- * Define child theme constants.
+ * Add color settings to Customizer.
  *
  * @package   SEOThemes\Core
  * @since     0.1.0
- * @link      https://github.com/seothemes/core-plugin-activator
+ * @link      https://github.com/seothemes/core-custom-colors
  * @author    SEO Themes
  * @copyright Copyright © 2018 SEO Themes
  * @license   GPL-2.0+
@@ -13,6 +13,7 @@
 namespace SEOThemes\Core;
 
 use D2\Core\Core;
+use SEOThemes\Core\Utilities\MinifyCSS;
 
 /**
  * Add recommended plugins to child theme.
@@ -20,32 +21,31 @@ use D2\Core\Core;
  * Example config (usually located at config/defaults.php):
  *
  * ```
- * use SEOThemes\Core\PluginActivator;
+ * use SEOThemes\Core\CustomColors;
  *
- * $plugins = [
- *     PluginActivator::REGISTER => [
- *         'Genesis eNews Extended',
- *         'Genesis Simple FAQ',
- *         'Genesis Testimonial Slider',
- *         'Genesis Widget Column Classes',
- *         'Google Map',
- *         'Icon Widget',
- *         'One Click Demo Import',
- *         'Simple Social Icons',
- *         'WP Featherlight',
+ * $custom_colors = [
+ *     'background' => [
+ *         'default' => '#ffffff',
+ *         'output'  => [
+ *             [
+ *                 'elements'   => [
+ *                     'body',
+ *                     '.site-container',
+ *                 ],
+ *                 'properties' => [
+ *                     'background-color' => '%s',
+ *                 ],
+ *             ],
+ *         ],
  *     ],
  * ];
  *
  * return [
- *     PluginActivator::class => $plugins,
+ *     CustomColors::class => $custom_colors,
  * ];
  * ```
  */
 class CustomColors extends Core {
-
-	const REGISTER = 'register';
-
-	public $plugins = [];
 
 	/**
 	 * Initialize class.
@@ -56,12 +56,8 @@ class CustomColors extends Core {
 	 */
 	public function init() {
 
-		if ( array_key_exists( self::REGISTER, $this->config ) ) {
-
-			add_action( 'customize_register', [ $this, 'settings' ] );
-			add_action( 'wp_enqueue_scripts', [ $this, 'output' ], 100 );
-
-		}
+		add_action( 'customize_register', [ $this, 'add_settings' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'output_css' ], 100 );
 
 	}
 
@@ -74,7 +70,7 @@ class CustomColors extends Core {
 	 *
 	 * @return void
 	 */
-	public function settings( $wp_customize ) {
+	public function add_settings( $wp_customize ) {
 
 		$wp_customize->remove_control( 'background_color' );
 		$wp_customize->remove_control( 'header_textcolor' );
@@ -113,7 +109,7 @@ class CustomColors extends Core {
 	 *
 	 * @return void
 	 */
-	public function output() {
+	public function output_css() {
 
 		$css = '';
 
@@ -153,7 +149,7 @@ class CustomColors extends Core {
 
 		if ( ! empty( $css ) ) {
 
-			wp_add_inline_style( sanitize_title_with_dashes( 'child-theme' ), $this->theme->utilities->minify_css( $css ) );
+			wp_add_inline_style( get_stylesheet(), MinifyCSS::minify( $css ) );
 
 		}
 

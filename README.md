@@ -1,36 +1,39 @@
 # Plugin Activator
 
-Add recommended plugins to TGM Plugin Activation through configuration.
+Add color settings to the Customizer with CSS output.
 
 ## Installation
 
-This component should be installed using Composer, with the command `composer require seothemes/core-plugin-activator`.
+This component should be installed using Composer, with the command `composer require seothemes/core-custom-colors`.
 
 ## Usage
 
-Within your config file (typically found at `config/defaults.php`), use the `PluginActivator::REGISTER` class constant as an array key to add a list of plugins to recommend.
+Within your config file (typically found at `config/defaults.php`), use the `CustomColors` as an array key to add a list color settings to add to the Customizer.
 
 For example:
 
 ```php
-use SEOThemes\Core\PluginActivator;
+use SEOThemes\Core\CustomColors;
 
-$plugins = [
-    PluginActivator::REGISTER => [
-        'Genesis eNews Extended',
-        'Genesis Simple FAQ',
-        'Genesis Testimonial Slider',
-        'Genesis Widget Column Classes',
-        'Google Map',
-        'Icon Widget',
-        'One Click Demo Import',
-        'Simple Social Icons',
-        'WP Featherlight',
-    ],
+$custom_colors = [
+	'background' => [
+		'default' => '#ffffff',
+		'output'  => [
+			[
+				'elements'   => [
+					'body',
+					'.site-container',
+				],
+				'properties' => [
+					'background-color' => '%s',
+				],
+			],
+		],
+	],
 ];
 
 return [
-    PluginActivator::class => $plugins,
+    CustomColors::class => $custom_colors,
 ];
  ```
 

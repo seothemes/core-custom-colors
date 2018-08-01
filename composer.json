@@ -1,0 +1,21 @@
+{
+  "name": "seothemes/core-custom-colors",
+  "description": "Add color settings to the Customizer through configuration",
+  "type": "library",
+  "license": "gpl-2.0-or-later",
+  "authors": [
+    {
+      "name": "seothemes",
+      "email": "seothemeswp@gmail.com"
+    }
+  ],
+  "require": {
+    "d2/core": "^0.1.0",
+    "seothemes/core-utilities": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "SEOThemes\\Core\\": "src/"
+    }
+  }
+}
